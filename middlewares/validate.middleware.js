@@ -1,5 +1,4 @@
-import Joi from 'joi';
-import ApiError from '../utils/apiError';
+import ApiError from '../utils/ApiError.js';
 
 export const validate = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body);

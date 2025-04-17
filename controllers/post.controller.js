@@ -1,5 +1,5 @@
 import { Post } from '../models/post.model.js';
-import ApiError from '../utils/apiError.js';
+import ApiError from '../utils/ApiError.js';
 import catchAsync from '../utils/catchAsync.js';
 
 export const createPost = catchAsync(async (req, res) => {
@@ -7,7 +7,7 @@ export const createPost = catchAsync(async (req, res) => {
     if (!post) {
         return next(new ApiError('Error al crear la publicación', 400));
     }
-    req.status(201).json(post)
+    res.status(201).json(post)
 })
 
 export const getAllPosts = catchAsync(async (req, res) => {
