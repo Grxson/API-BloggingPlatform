@@ -2,7 +2,7 @@ import { Post } from '../models/post.model.js';
 import ApiError from '../utils/ApiError.js';
 import catchAsync from '../utils/catchAsync.js';
 
-export const createPost = catchAsync(async (req, res) => {
+export const createPost = catchAsync(async (req, res, next) => {
     const post = await Post.create({ ...req.body, author: req.user._id });
     if (!post) {
         return next(new ApiError('Error al crear la publicación', 400));
@@ -10,7 +10,7 @@ export const createPost = catchAsync(async (req, res) => {
     res.status(201).json(post)
 })
 
-export const getAllPosts = catchAsync(async (req, res) => {
+export const getAllPosts = catchAsync(async (req, res, next) => {
     const { term } = req.query;
     const query = term
         ? {
@@ -28,7 +28,7 @@ export const getAllPosts = catchAsync(async (req, res) => {
     res.status(200).json(posts);
 })
 
-export const getPost = catchAsync(async (req, res) => {
+export const getPost = catchAsync(async (req, res, next) => {
     const post = await Post.findById(req.params.id).populate('author', 'name email')
     if (!post) {
         return next(new ApiError('Publicación no encontrada.', 404));
@@ -36,7 +36,7 @@ export const getPost = catchAsync(async (req, res) => {
     res.json(post);
 })
 
-export const updatePost = catchAsync(async (req, res) => {
+export const updatePost = catchAsync(async (req, res, next) => {
     const post = await Post.findByIdAndUpdate(req.params.id)
     if (!post) {
         return next(new ApiError('Publicación no encontrada.', 404));
